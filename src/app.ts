@@ -5,7 +5,8 @@ import socketio from "socket.io";
 import * as dotenv from "dotenv";
 import path from "path";
 import { sequelize } from "./config/config";
-import router from "./routes";
+import * as ChatService from "./services/chat";
+import { ChatRequestDTO }} from "./interfaces/chat";
 
 dotenv.config({ path: path.join(__dirname + "../../.env") });
 
@@ -20,17 +21,23 @@ app.use(cors());
 
 sequelize.sync();
 
-app.use("/", router);
-
 app.use((err, req: Request, res: Response, next: NextFunction) => {
   res.status(404).json({ message: err.message });
 });
 
+app.set("jwt-secret", process.env.JWT_SECRET);
+
 io.sockets.on("connection", (socket) => {
-  console.log(1);
+  socket.on("join", async (id: number) => {
+    socket.join("room" + id);
+  });
+  socket.on("chat", async (req: ChatRequestDTO) => {
+    await ChatService.chat(req);
+    io.to("room" + req.roomId).emit("chat", req.userEmail, req.message);
+  });
 });
 
-server.listen(5000, () => {
+server.listen(3000, () => {
   console.log("server on!");
 });
 
