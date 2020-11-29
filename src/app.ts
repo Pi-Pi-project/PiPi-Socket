@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 import path from "path";
 import { sequelize } from "./config/config";
 import * as ChatService from "./services/chat";
-import { ChatRequestDTO }} from "./interfaces/chat";
+import { ChatRequestDTO } from "./interfaces/chat";
 
 dotenv.config({ path: path.join(__dirname + "../../.env") });
 
@@ -34,6 +34,12 @@ io.sockets.on("connection", (socket) => {
   socket.on("chat", async (req: ChatRequestDTO) => {
     await ChatService.chat(req);
     io.to("room" + req.roomId).emit("chat", req.userEmail, req.message);
+  });
+  socket.on("leave", (id: number) => {
+    socket.leave("room" + id);
+  });
+  socket.on("disconnect", () => {
+    console.log("disconnected");
   });
 });
 
