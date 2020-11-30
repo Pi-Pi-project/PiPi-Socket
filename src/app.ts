@@ -40,7 +40,7 @@ io.on("connection", (socket) => {
     await ChatService.chat(req);
     const user = await UserService.findUser(req.userEmail);
     io.to("room" + req.roomId).emit(
-      "chat",
+      "receive",
       user.email,
       user.profileImage,
       user.nickname,
