@@ -15,7 +15,7 @@ const socketio = require("socket.io");
 const app: Application = express();
 
 const server: http.Server = http.createServer(app);
-const io = socketio(server);
+const io = socketio(server, { cors: { origin: "*" } });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
