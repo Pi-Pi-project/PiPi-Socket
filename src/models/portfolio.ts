@@ -31,5 +31,5 @@ Portfolio.init(
       field: "user_email",
     },
   },
-  { sequelize, modelName: "portfolio" }
+  { sequelize, modelName: "portfolio", tableName: "portfolio" }
 );
