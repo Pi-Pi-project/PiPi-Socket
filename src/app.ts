@@ -1,7 +1,7 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import http from "http";
-import socketio from "socket.io";
+// import socketio from "socket.io";
 import * as dotenv from "dotenv";
 import path from "path";
 import { sequelize } from "./config/config";
@@ -11,6 +11,7 @@ import { ChatRequestDTO } from "./interfaces/chat";
 
 dotenv.config({ path: path.join(__dirname + "../../.env") });
 
+const socketio = require("socket.io");
 const app: Application = express();
 
 const server: http.Server = http.createServer(app);
