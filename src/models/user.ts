@@ -50,7 +50,7 @@ User.init(
       field: "second_portfolio_id",
     },
   },
-  { sequelize, modelName: "user" }
+  { sequelize, modelName: "user", tableName: "user" }
 );
 
 User.hasOne(Portfolio, { foreignKey: "userEmail", sourceKey: "email" });
