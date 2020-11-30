@@ -33,9 +33,3 @@ Portfolio.init(
   },
   { sequelize, modelName: "portfolio" }
 );
-
-Portfolio.hasOne(User, { foreignKey: "firstPortfolioId", sourceKey: "id" });
-User.belongsTo(Portfolio, { foreignKey: "firstPortfolioId" });
-
-Portfolio.hasOne(User, { foreignKey: "secondPortfolioId", sourceKey: "id" });
-User.belongsTo(Portfolio, { foreignKey: "secondPortfolioId" });

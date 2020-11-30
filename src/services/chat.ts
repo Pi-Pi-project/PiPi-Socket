@@ -1,4 +1,5 @@
 import { Chat } from "../models/chat";
+import { User } from "../models/user";
 import { mkId } from "../utils/uuid";
 import { ChatRequestDTO } from "../interfaces/chat";
 
@@ -10,4 +11,8 @@ export const chat = async (req: ChatRequestDTO) => {
     userEmail: req.userEmail,
     message: req.message,
   });
+};
+
+export const dummy = async () => {
+  await User.findOne();
 };
