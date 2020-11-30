@@ -19,5 +19,5 @@ ChatMember.init(
       field: "user_email",
     },
   },
-  { sequelize, modelName: "chat_member" }
+  { sequelize, modelName: "chat_member", tableName: "chat_member" }
 );
