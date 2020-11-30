@@ -24,7 +24,7 @@ Room.init(
       field: "cover_img",
     },
   },
-  { sequelize, modelName: "room" }
+  { sequelize, modelName: "room", tableName: "room" }
 );
 
 Room.hasMany(ChatMember, { foreignKey: "roomId", sourceKey: "id" });
