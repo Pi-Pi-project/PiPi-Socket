@@ -10,6 +10,7 @@ export const chat = async (req: ChatRequestDTO) => {
   });
 };
 
-export const dummy = async () => {
-  await Room.findOne();
+export const updateRecentlyRoom = async (id: number) => {
+  const date = new Date().toISOString().replace(/T/, " ").replace(/\..+/, "");
+  await Room.update({ updatedAt: date }, { where: { id } });
 };
