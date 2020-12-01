@@ -1,7 +1,7 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import http from "http";
-// import socketio from "socket.io";
+import socketio from "socket.io";
 import * as dotenv from "dotenv";
 import path from "path";
 import { sequelize } from "./config/config";
@@ -11,11 +11,10 @@ import { ChatRequestDTO } from "./interfaces/chat";
 
 dotenv.config({ path: path.join(__dirname + "../../.env") });
 
-const socketio = require("socket.io");
 const app: Application = express();
 
 const server: http.Server = http.createServer(app);
-const io = socketio(server, { cors: { origin: "*" } });
+const io = socketio(server);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -32,12 +31,13 @@ app.set("jwt-secret", process.env.JWT_SECRET);
 io.on("connection", (socket) => {
   console.log("connection");
   socket.on("join", async (id: number) => {
-    console.log("1111");
+    console.log(id);
     socket.join("room" + id);
   });
   socket.on("chat", async (req: ChatRequestDTO) => {
     console.log(req);
     await ChatService.chat(req);
+    await ChatService.updateRecentlyRoom(req.roomId);
     const user = await UserService.findUser(req.userEmail);
     io.to("room" + req.roomId).emit(
       "receive",
