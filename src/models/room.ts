@@ -23,6 +23,10 @@ Room.init(
       type: Sequelize.STRING(50),
       field: "cover_img",
     },
+    updatedAt: {
+      type: Sequelize.STRING(20),
+      field: "updated_at",
+    },
   },
   { sequelize, modelName: "room", tableName: "room" }
 );
