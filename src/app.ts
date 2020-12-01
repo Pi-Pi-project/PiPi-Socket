@@ -39,13 +39,15 @@ io.on("connection", (socket) => {
     await ChatService.chat(req);
     await ChatService.updateRecentlyRoom(req.roomId);
     const user = await UserService.findUser(req.userEmail);
-    io.to("room" + req.roomId).emit(
-      "receive",
-      user.email,
-      user.profileImage,
-      user.nickname,
-      req.message
-    );
+    socket.broadcast
+      .to("room" + req.roomId)
+      .emit(
+        "receive",
+        user.email,
+        user.profileImage,
+        user.nickname,
+        req.message
+      );
   });
   socket.on("leave", (id: number) => {
     socket.leave("room" + id);
