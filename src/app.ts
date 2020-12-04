@@ -29,13 +29,10 @@ app.use((err, req: Request, res: Response, next: NextFunction) => {
 app.set("jwt-secret", process.env.JWT_SECRET);
 
 io.on("connection", (socket) => {
-  console.log("connection");
   socket.on("join", async (id: number) => {
-    console.log(id);
     socket.join("room" + id);
   });
   socket.on("chat", async (req: ChatRequestDTO) => {
-    console.log(req);
     await ChatService.chat(req);
     await ChatService.updateRecentlyRoom(req.roomId);
     const user = await UserService.findUser(req.userEmail);
